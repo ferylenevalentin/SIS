@@ -1,0 +1,118 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: white;
+  }
+  
+  .dashboard {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .sidebar-main {
+    width: 300px; 
+    height: 100vh; 
+    background-color:#303030; 
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-right: 1px solid #dcdcdc;
+  }
+  
+  .logo {
+    width: 150px; 
+    margin-bottom: 30px;
+    transition: transform 0.3s ease;
+  }
+  
+  .sidebar-links {
+    width: 100%;
+  }
+  
+  .sidebar-links a {
+    position: relative;
+    top: 280px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    color: #f8f8f8; 
+    font-size: 15px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    gap: 10px;
+    padding: 10px;
+  }
+  
+  .sidebar-links a img {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .sidebar-links a:hover {
+    background-color: white; 
+    color: black; 
+    transform: scale(1.05);
+  }
+  
+  /* .content {
+    margin-top: 100px;
+    flex-grow: 1;
+    padding: 30px;
+    background-color: white;
+    height: 100vh;
+    overflow-y: auto;
+  }
+   */
+  h1 {
+    font-size: 40px;
+    margin-bottom: 10px;
+    color: #0c0c0c;
+    padding: 2px;
+    position: fixed;
+    top: 3%;
+    left: 320px;
+    font-weight: 650;
+  }
+ 
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  color:#0c0c0c;
+  min-height: 100vh; 
+  padding: 20px;
+  position: fixed;
+  top: 8%;
+  left:500px;
+}
+
+
+.car-info {
+  margin-bottom: 20px; 
+}
+
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px; 
+  width: 300px;
+  font-family: 'Poppins';
+}
+
+
+button {
+  margin-top: 20px;
+}
+

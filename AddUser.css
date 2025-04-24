@@ -1,0 +1,75 @@
+*{
+    font-family: 'Poppins', sans-serif;
+  }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: white;
+  }
+  .container {
+      display: flex;
+    }
+    
+    .Sidebar {
+      width: 250px; 
+    }
+    
+    .Buttons {
+      font-weight: bold;
+      flex-grow: 1;
+      padding: 30px;
+      margin-left: 30;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .Buttons h2{
+      font-size: 40px;
+      font-weight: bold;
+      color: #0c0c0c;
+      margin-top: 3%;
+      font-family: 'Poppins', sans-serif;
+    }
+    .view {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      width: 100%;
+      max-width: 1500px;
+    }
+    .view p{
+      color:#0c0c0c;
+      font-weight: 500;
+    }
+  
+    .view h3{
+      background-color: #303030;
+      color: white;
+    } 
+    #addnew{
+      background-color: #303030;
+      color: white;
+      margin-left: 1200px;
+      margin-top: -90px;
+      gap: 10px;
+      font-family: 'Poppins', sans-serif;
+    }
+    .h2{
+      font-family: 'Poppins', sans-serif;
+   
+    }
+    .cancel{
+      font-family: 'Poppins', sans-serif;
+    }
+  
+    
+    
+    /* .button-container {
+      display: flex;
+      justify-content: flex-end; 
+      align-items: center; 
+      gap: 10px; 
+    }
+    
+    #edit-button, #delete-button {
+      color: black;
+    } */
