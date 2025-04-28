@@ -36,24 +36,31 @@ app.post("/addstudentmongo", async (req, res) => {
         res.status(201).json(student);
         console.log("Added Student:", student);
     } catch (error) {
-        console.error("Error adding student:", error);
-        res.status(500).json({ message: "Error adding student" });
+        if (error.code === 11000) {
+            res.status(400).json({ message: "ID Number already exists. Please use a unique ID." });
+        } else {
+            console.error("Error adding student:", error);
+            res.status(500).json({ message: "Error adding student" });
+        }
     }
 });
 
 
-app.put("/updatestudent/:id", (req, res) => {
+app.put("/updatestudent/:id", async (req, res) => {
     const { id } = req.params;
     const updatedStudent = req.body;
 
-    let studentIndex = students.findIndex(student => student.idNumber === id);
-
-    if (studentIndex !== -1) {
-        students[studentIndex] = { ...students[studentIndex], ...updatedStudent };
-        res.json({ message: "Student updated successfully", updatedStudent: students[studentIndex] });
-        console.log("Updated Student:", students[studentIndex]);
-    } else {
-        res.status(404).json({ message: "Student not found" });
+    try {
+        const student = await Student.findOneAndUpdate({ id: id }, updatedStudent, { new: true });
+        if (student) {
+            res.json({ message: "Student updated successfully", updatedStudent: student });
+            console.log("Updated Student:", student);
+        } else {
+            res.status(404).json({ message: "Student not found" });
+        }
+    } catch (error) {
+        console.error("Error updating student:", error);
+        res.status(500).json({ message: "Error updating student" });
     }
 });
 
@@ -68,17 +75,21 @@ app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
 
-app.delete("/deletestudent/:id", (req, res) => {
+app.delete("/deletestudent/:id", async (req, res) => {
     const { id } = req.params;
     const initialLength = students.length;
     
-    students = students.filter(student => student.idNumber !== id);
-
-    if (students.length < initialLength) {
-        res.json({ message: "Student deleted successfully" });
-        console.log("Deleted Student ID:", id);
-    } else {
-        res.status(404).json({ message: "Student not found" });
+    try {
+        const student = await Student.findOneAndDelete({ id: id });
+        if (student) {
+            res.json({ message: "Student deleted successfully" });
+            console.log("Deleted Student ID:", id);
+        } else {
+            res.status(404).json({ message: "Student not found" });
+        }
+    } catch (error) {
+        console.error("Error deleting student:", error);
+        res.status(500).json({ message: "Error deleting student" });
     }
 });
 

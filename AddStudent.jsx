@@ -54,6 +54,13 @@ function AddStudent() {
             year: addYearRef.current.value,
         };
 
+            const idExists = students.some(student => student.id === newStudent.id);
+        if (idExists) {
+            alert("ID Number already exists. Please use a unique ID.");
+            return;
+        }
+
+
         try {
             
             await axios.post("http://localhost:1337/addstudentmongo", newStudent);
@@ -74,6 +81,11 @@ function AddStudent() {
             setOpenAddModal(false);
         } catch (error) {
             console.error("Error adding student:", error);
+            if (error.response && error.response.data.message) {
+                alert(error.response.data.message); 
+            } else {
+                alert("Failed to add student. Please try again.");
+            }
         }
     }
 
@@ -94,32 +106,34 @@ function AddStudent() {
         if (!selectedStudent) return;
 
         const updatedStudent = {
-            idNumber: idRef.current?.value || selectedStudent.idNumber,
-            first: firstRef.current?.value || selectedStudent.first,
-            last: lastRef.current?.value || selectedStudent.last,
-            middle: middleRef.current?.value || selectedStudent.middle,
+            id: idRef.current?.value || selectedStudent.id,
+            firstName: firstRef.current?.value || selectedStudent.firstName,
+            lastName: lastRef.current?.value || selectedStudent.lastName,
+            middleName: middleRef.current?.value || selectedStudent.middleName,
             course: courseRef.current?.value || selectedStudent.course,
             year: yearRef.current?.value || selectedStudent.year,
         };
 
         try {
-            await axios.put(`http://localhost:1337/updatestudent/${selectedStudent.idNumber}`, updatedStudent);
+            await axios.put(`http://localhost:1337/updatestudent/${selectedStudent.id}`, updatedStudent);
             console.log("Updated student:", updatedStudent);
-            fetchStudents();
-            handleCloseModal();
+            fetchStudents(); 
+            handleCloseModal(); 
         } catch (error) {
             console.error("Error updating student:", error);
+            alert("Failed to update student. Please try again.");
         }
     };
 
     
-    const handleDeleteStudent = async (idNumber) => {
+    const handleDeleteStudent = async (id) => {
         try {
-            await axios.delete(`http://localhost:1337/deletestudent/${idNumber}`);
-            console.log("Deleted student with ID:", idNumber);
-            fetchStudents();
+            await axios.delete(`http://localhost:1337/deletestudent/${id}`);
+            console.log("Deleted student with ID:", id);
+            fetchStudents(); // Refresh the student list
         } catch (error) {
             console.error("Error deleting student:", error);
+            alert("Failed to delete student. Please try again.");
         }
     };
 
@@ -171,7 +185,7 @@ function AddStudent() {
                                 <p>Course: {student.course}</p>
                                 <p>Year: {student.year}</p>
                                 <Button onClick={() => handleOpenModal(student)} color="primary">Edit</Button>
-                                <Button onClick={() => handleDeleteStudent(student.idNumber)} color="error">Delete</Button>
+                                <Button onClick={() => handleDeleteStudent(student.id)} color="error">Delete</Button>
                             </CardContent>
                         </Card>
                     ))}
@@ -184,10 +198,15 @@ function AddStudent() {
                 <DialogContent>
                     {selectedStudent && (
                         <>
-                            <TextField label="ID Number" variant="outlined" fullWidth margin="normal" defaultValue={selectedStudent.idNumber} inputRef={idRef} />
-                            <TextField label="First Name" variant="outlined" fullWidth margin="normal" defaultValue={selectedStudent.first} inputRef={firstRef} />
-                            <TextField label="Last Name" variant="outlined" fullWidth margin="normal" defaultValue={selectedStudent.last} inputRef={lastRef} />
-                            <TextField label="Middle Name" variant="outlined" fullWidth margin="normal" defaultValue={selectedStudent.middle} inputRef={middleRef} />
+                            <TextField 
+                            label="ID Number" 
+                            variant="outlined" 
+                            fullWidth margin="normal" 
+                            defaultValue={selectedStudent.id}
+                            inputRef={idRef} disabled />
+                            <TextField label="First Name" variant="outlined" fullWidth margin="normal" defaultValue={selectedStudent.firstName} inputRef={firstRef} />
+                            <TextField label="Last Name" variant="outlined" fullWidth margin="normal" defaultValue={selectedStudent.lastName} inputRef={lastRef} />
+                            <TextField label="Middle Name" variant="outlined" fullWidth margin="normal" defaultValue={selectedStudent.middleName} inputRef={middleRef} />
                             <TextField label="Course" variant="outlined" fullWidth margin="normal" defaultValue={selectedStudent.course} inputRef={courseRef} />
                             <TextField label="Year" variant="outlined" fullWidth margin="normal" defaultValue={selectedStudent.year} inputRef={yearRef} />
                         </>
